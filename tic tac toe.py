@@ -30,13 +30,11 @@ def players():
             print("Người chơi 1 thắng!" if turn == 0 else "Người chơi 2 thắng!")
             break
             
-        turn = 1- turn
-        
+        turn = 1- turn  
     else:
         create_board(board)
         
             
-              
 def whoGoesFirst():
   if random.randint(0, 1) == 0:
     return 'player 1'
