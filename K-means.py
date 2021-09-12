@@ -34,6 +34,13 @@ def init_centroids(X,k):
   centroids = X.copy()
   np.random.shuffle(centroids)
   return centroids[:k]
+init_centroids(X,3)
+
+plt.scatter(X[:,0], X[:,1])
+centroids = init_centroids(X,3)
+plt.scatter(centroids[:,0], centroids[:,1], s = 500, c=y)
+
+
   while True:
     labels = closest_centroid(X,centroids)
 
@@ -46,6 +53,9 @@ def init_centroids(X,k):
   return centroids, labels
 
 def closest_centroid(X, centroids):
-    distances = np.sqrt(((X - centroids[:,np.newaxis])**2).sum(axis=2))
-    return np.argmin(distances,axis = 0)
-init_centroids(X,3)
+    distances = cdist(X,centers)
+    return np.argmin(distances,axis = 1)
+
+closest_centroid(X,centroids)
+
+def update_centers(X, labels, K):
