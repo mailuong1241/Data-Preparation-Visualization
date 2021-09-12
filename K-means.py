@@ -43,16 +43,13 @@ plt.scatter(X2[:, 0], X2[:, 1], c = 'r', marker = 'o', s =50)
 plt.scatter(centroids[:,0], centroids[:,1], marker='*', s = 100, c='k')
 
 
-
 def closest_centroid(X, centroids):
-    D = cdist(X,centroids)
-    D2 = centroids[0] - X
-    D3 = centroids[1] - X
-    D4 = centroids[2] - X
-    clusters = np.argmin(D,axis = 1)
-    return clusters
-
+    cdist(X,centroids)
+    return np.argmin(cdist(X,centroids),axis = 1)
+D =cdist(X,centroids)
+clusters = np.argmin(D,axis = 1)
 closest_centroid(X,centroids)
+
 
 k = 3
 centroids_old = np.zeros(centroids.shape) 
@@ -71,3 +68,5 @@ centroids_update
     
 
 plt.scatter(centroids_update[:,0], centroids_update[:,1], marker = '*', c ='y', s=100)
+
+# Quay lại bước phân mỗi điểm dữ liệu vào cluster có center gần nó nhất
