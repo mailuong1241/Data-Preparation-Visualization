@@ -1,5 +1,6 @@
 from __future__ import print_function 
 import numpy as np
+from copy import deepcopy
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
 np.random.seed(11)
@@ -34,28 +35,39 @@ def init_centroids(X,k):
   centroids = X.copy()
   np.random.shuffle(centroids)
   return centroids[:k]
-init_centroids(X,3)
+centroids=init_centroids(X,3)
 
-plt.scatter(X[:,0], X[:,1])
-centroids = init_centroids(X,3)
-plt.scatter(centroids[:,0], centroids[:,1], s = 500, c=y)
+plt.scatter(X0[:, 0], X0[:, 1], c ='b', marker = '.', s = 50)
+plt.scatter(X1[:, 0], X1[:, 1], c = 'g', marker = '^', s = 50)
+plt.scatter(X2[:, 0], X2[:, 1], c = 'r', marker = 'o', s =50)
+plt.scatter(centroids[:,0], centroids[:,1], marker='*', s = 100, c='k')
 
 
-  while True:
-    labels = closest_centroid(X,centroids)
-
-    new_centroids = np.array([X[labels == i].mean(0) for i in range(n_clusters)])
-
-    if np.all(centroids==new_centroids):
-      break
-    centroids = new_centroids
-
-  return centroids, labels
 
 def closest_centroid(X, centroids):
-    distances = cdist(X,centers)
-    return np.argmin(distances,axis = 1)
+    D = cdist(X,centroids)
+    D2 = centroids[0] - X
+    D3 = centroids[1] - X
+    D4 = centroids[2] - X
+    clusters = np.argmin(D,axis = 1)
+    return clusters
 
 closest_centroid(X,centroids)
 
-def update_centers(X, labels, K):
+k = 3
+centroids_old = np.zeros(centroids.shape) 
+centroids_update = deepcopy(centroids)
+X.shape
+
+error = np.linalg.norm(centroids_update - centroids_old)
+
+while error != 0:
+    centroids_old = deepcopy(centroids_update)
+    
+    for i in range(k):
+        centroids_update[i] = np.mean(X[clusters == i], axis = 0)
+    error = np.linalg.norm(centroids_update - centroids_old)
+centroids_update
+    
+
+plt.scatter(centroids_update[:,0], centroids_update[:,1], marker = '*', c ='y', s=100)
